@@ -20,6 +20,6 @@ func TestNotExist(t *testing.T) {
 
 	strList := []string{"a", "b", "c"}
 
-	ast.Equal(slice.NoExist(strList, "a"), false, "slice.Exist must return false value")
-	ast.Equal(slice.NoExist(strList, "d"), true, "slice.Exist must return true value")
+	ast.Equal(slice.NotExist(strList, "a"), false, "slice.Exist must return false value")
+	ast.Equal(slice.NotExist(strList, "d"), true, "slice.Exist must return true value")
 }

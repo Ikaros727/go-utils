@@ -11,8 +11,8 @@ func Exist[T comparable](s []T, target T) bool {
 	return false
 }
 
-// NoExist determines whether the target is not in the s
-func NoExist[T comparable](s []T, target T) bool {
+// NotExist determines whether the target is not in the s
+func NotExist[T comparable](s []T, target T) bool {
 	for i := range s {
 		if s[i] == target {
 			return false
