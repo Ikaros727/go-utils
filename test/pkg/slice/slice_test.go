@@ -1,12 +1,13 @@
 package slice
 
 import (
+	"testing"
+
 	"github.com/Icarus-0727/go-utils/pkg/slice"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
-func TestExist(t *testing.T) {
+func TestSlice_Exist(t *testing.T) {
 	ast := assert.New(t)
 
 	strList := []string{"a", "b", "c"}
@@ -15,7 +16,7 @@ func TestExist(t *testing.T) {
 	ast.Equal(slice.Exist(strList, "d"), false, "slice.Exist must return false value")
 }
 
-func TestNotExist(t *testing.T) {
+func TestSlice_NotExist(t *testing.T) {
 	ast := assert.New(t)
 
 	strList := []string{"a", "b", "c"}
