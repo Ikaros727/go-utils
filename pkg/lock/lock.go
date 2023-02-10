@@ -9,7 +9,7 @@ import (
 type Lock interface {
 	Lock()
 	TryLock() bool
-	TryLockWithTimeout(timeout time.Duration) bool
+	TimeoutLock(timeout time.Duration) bool
 	Unlock() error
 }
 
@@ -21,6 +21,7 @@ func (l *lock) Lock() {
 	l.lock <- struct{}{}
 }
 
+// TryLock returns true if trying lock success else false
 func (l *lock) TryLock() (locked bool) {
 	select {
 	case l.lock <- struct{}{}:
@@ -30,7 +31,8 @@ func (l *lock) TryLock() (locked bool) {
 	return
 }
 
-func (l *lock) TryLockWithTimeout(timeout time.Duration) (locked bool) {
+// TimeoutLock returns true if trying lock success that within the specified time else false
+func (l *lock) TimeoutLock(timeout time.Duration) (locked bool) {
 	timeoutCtx, cancelFunc := context.WithTimeout(context.TODO(), timeout)
 	defer cancelFunc()
 	select {
@@ -41,6 +43,7 @@ func (l *lock) TryLockWithTimeout(timeout time.Duration) (locked bool) {
 	return
 }
 
+// Unlock return error if unlock of unlocked lock
 func (l *lock) Unlock() (err error) {
 	select {
 	case <-l.lock:
