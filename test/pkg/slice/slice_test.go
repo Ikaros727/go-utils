@@ -1,7 +1,7 @@
-package test
+package slice
 
 import (
-	"github.com/Icarus-0727/go-utils/slice"
+	"github.com/Icarus-0727/go-utils/pkg/slice"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
