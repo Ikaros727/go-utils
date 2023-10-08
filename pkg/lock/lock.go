@@ -10,13 +10,14 @@ type Lock interface {
 	Lock()
 	TryLock() bool
 	TryLockWithTimeout(timeout time.Duration) bool
-	Unlock() error
+	Unlock()
 }
 
 type lock struct {
 	lock chan struct{}
 }
 
+// Lock put an element into channel to mark that locked
 func (l *lock) Lock() {
 	l.lock <- struct{}{}
 }
@@ -43,12 +44,12 @@ func (l *lock) TryLockWithTimeout(timeout time.Duration) (locked bool) {
 	return
 }
 
-// Unlock return error if unlock of unlocked lock
-func (l *lock) Unlock() (err error) {
+// Unlock panic if unlock of unlocked lock
+func (l *lock) Unlock() {
 	select {
 	case <-l.lock:
 	default:
-		err = errors.New("unlock of unlocked lock")
+		panic(errors.New("unlock of unlocked lock"))
 	}
 	return
 }

@@ -14,9 +14,12 @@ func TestLock_TryLock(t *testing.T) {
 
 	locked := l.TryLock()
 	ast.True(locked)
+	l.Unlock()
 
+	l.Lock()
 	locked = l.TryLock()
 	ast.False(locked)
+	l.Unlock()
 }
 
 func TestLock_TryLockWithTimeout(t *testing.T) {
