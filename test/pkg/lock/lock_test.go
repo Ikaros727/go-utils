@@ -1,10 +1,11 @@
 package lock
 
 import (
-	"github.com/Icarus-0727/go-utils/pkg/lock"
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/Icarus-0727/go-utils/pkg/lock"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestLock_TryLock(t *testing.T) {
@@ -18,15 +19,15 @@ func TestLock_TryLock(t *testing.T) {
 	ast.False(locked)
 }
 
-func TestLock_TimeoutLock(t *testing.T) {
+func TestLock_TryLockWithTimeout(t *testing.T) {
 	ast := assert.New(t)
 	l := lock.New()
 
-	locked := l.TimeoutLock(time.Second)
+	locked := l.TryLockWithTimeout(time.Second)
 	ast.True(locked)
 
 	start := time.Now()
-	locked = l.TimeoutLock(time.Second)
+	locked = l.TryLockWithTimeout(time.Second)
 	d := time.Since(start)
 	ast.False(locked)
 

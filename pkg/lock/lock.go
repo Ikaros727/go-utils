@@ -9,7 +9,7 @@ import (
 type Lock interface {
 	Lock()
 	TryLock() bool
-	TimeoutLock(timeout time.Duration) bool
+	TryLockWithTimeout(timeout time.Duration) bool
 	Unlock() error
 }
 
@@ -31,8 +31,8 @@ func (l *lock) TryLock() (locked bool) {
 	return
 }
 
-// TimeoutLock returns true if trying lock success that within the specified time else false
-func (l *lock) TimeoutLock(timeout time.Duration) (locked bool) {
+// TryLockWithTimeout returns true if trying lock success that within the specified time else false
+func (l *lock) TryLockWithTimeout(timeout time.Duration) (locked bool) {
 	timeoutCtx, cancelFunc := context.WithTimeout(context.TODO(), timeout)
 	defer cancelFunc()
 	select {
