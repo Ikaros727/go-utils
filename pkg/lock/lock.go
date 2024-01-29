@@ -1,7 +1,6 @@
 package lock
 
 import (
-	"context"
 	"errors"
 	"time"
 )
@@ -35,12 +34,10 @@ func (l *lock) TryLock() (locked bool) {
 }
 
 func (l *lock) TryLockWithTimeout(timeout time.Duration) (locked bool) {
-	timeoutCtx, cancelFunc := context.WithTimeout(context.TODO(), timeout)
-	defer cancelFunc()
 	select {
 	case l.lock <- struct{}{}:
 		locked = true
-	case <-timeoutCtx.Done():
+	case <-time.After(timeout):
 	}
 	return
 }
