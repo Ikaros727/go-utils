@@ -46,6 +46,6 @@ func Test_distributedLockRedis_TryLockWithTimeout(t *testing.T) {
 
 	// 已上锁，加锁
 	lock.Lock()
-	//ast.False(lock.TryLockWithTimeout(time.Second * 5))
-	//ast.False(lock2.TryLockWithTimeout(time.Second * 5))
+	ast.False(lock.TryLockWithTimeout(time.Second * 5))
+	ast.False(lock2.TryLockWithTimeout(time.Second * 5))
 }

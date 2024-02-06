@@ -1,7 +1,6 @@
 package lock_distributed
 
 import (
-	"context"
 	"time"
 
 	"github.com/Icarus-0727/go-utils/pkg/lock"
@@ -58,16 +57,18 @@ func (d *distributedLockRedis) TryLockWithTimeout(timeout time.Duration) (locked
 	// try lock for localLock with timeout
 	if d.localLock.TryLockWithTimeout(timeout) {
 		// calc the remaining timeout
-		timeout -= time.Since(startTime) + time.Millisecond
-		// create timeout ctx
-		timeoutCtx, cancelFunc := context.WithTimeout(context.TODO(), timeout)
-		defer cancelFunc()
+		timeout -= time.Since(startTime)
+		if timeout <= 0 {
+			return
+		}
+		timer := time.After(timeout)
 
 		for {
 			select {
 			// timeout
-			case <-timeoutCtx.Done():
+			case <-timer:
 				d.localLock.Unlock()
+				return
 
 			// try lock for Redis
 			default:
