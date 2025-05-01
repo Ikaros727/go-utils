@@ -65,7 +65,7 @@ func Subtract[T comparable](sliceIn, sliceNotIn []T) (final []T) {
 	return
 }
 
-// ExclusiveOr return the elements that exist in sliceA but not in sliceB or in sliceB but not in sliceA
+// ExclusiveOr return the elements that only exist in sliceA or sliceB
 func ExclusiveOr[T comparable](sliceA, sliceB []T) (final []T) {
 	mapA := make(map[T]struct{})
 	mapB := make(map[T]struct{})
